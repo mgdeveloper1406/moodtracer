@@ -1,4 +1,5 @@
 const body = document.querySelector('body');
+const warpperElem = document.querySelector('.wrapper');
 const appNameElem = document.querySelector('.app-name');
 
 const nameFormElem = document.querySelector('.name-form');
@@ -278,61 +279,58 @@ window.addEventListener('touchend', (e) => {
 
 
 
-if (window.matchMedia('(max-width: 425px)').matches) {
-  let darkToggle = false;
+let darkToggle = false;
 
-  function drakModeToggle() {
-    if (darkToggle === true) {
-      darkToggle = !darkToggle;
-      localStorage.setItem('darkmode', darkToggle);
-    } else {
-      darkToggle = !darkToggle;
-      localStorage.setItem('darkmode', darkToggle);
-    }
-  }
-  
-  function darkMode() {
-    if (darkToggle == true) { //다크모드 활성화
-      body.classList.remove('white-bg');
-      body.classList.add('dark-bg');
-      nameFormElem.classList.add('dark');
-      moodSlcWrapperElem.classList.add('dark');
-      btnMood.classList.add('white');
-      document.querySelectorAll('.circle-date').forEach((item) => {
-        item.classList.add('dark');
-      });
-    } else { //다크모드 비활성화
-      body.classList.remove('dark-bg');
-      body.classList.add('white-bg');
-      nameFormElem.classList.remove('dark');
-      moodSlcWrapperElem.classList.remove('dark');
-      btnMood.classList.remove('white');
-      document.querySelectorAll('.circle-date').forEach((item) => {
-        item.classList.remove('dark');
-      });
-    }
-  }
-  
-  const savedDarkMode = localStorage.getItem('darkmode');
-  
-  if (savedDarkMode === null) {
-    darkToggle = false;
+function drakModeToggle() {
+  if (darkToggle === true) {
+    darkToggle = !darkToggle;
+    localStorage.setItem('darkmode', darkToggle);
   } else {
-    darkToggle = JSON.parse(savedDarkMode);
-    darkMode();
+    darkToggle = !darkToggle;
+    localStorage.setItem('darkmode', darkToggle);
   }
-  
-  appNameElem.addEventListener('click', () => {
-    drakModeToggle();
-    darkMode();
-  });
-
-  appNameElem.addEventListener('touchend', () => {
-    drakModeToggle();
-    darkMode();
-  });
-
 }
 
+function darkMode() {
+  if (darkToggle == true) { //다크모드 활성화
+    body.classList.remove('white-bg');
+    body.classList.add('dark-bg');
+    warpperElem.classList.add('dark');
+    nameFormElem.classList.add('dark');
+    moodSlcWrapperElem.classList.add('dark');
+    btnMood.classList.add('white');
+    document.querySelectorAll('.circle-date').forEach((item) => {
+      item.classList.add('dark');
+    });
+  } else { //다크모드 비활성화
+    body.classList.remove('dark-bg');
+    body.classList.add('white-bg');
+    warpperElem.classList.remove('dark');
+    nameFormElem.classList.remove('dark');
+    moodSlcWrapperElem.classList.remove('dark');
+    btnMood.classList.remove('white');
+    document.querySelectorAll('.circle-date').forEach((item) => {
+      item.classList.remove('dark');
+    });
+  }
+}
+
+const savedDarkMode = localStorage.getItem('darkmode');
+
+if (savedDarkMode === null) {
+  darkToggle = false;
+} else {
+  darkToggle = JSON.parse(savedDarkMode);
+  darkMode();
+}
+
+appNameElem.addEventListener('click', () => {
+  drakModeToggle();
+  darkMode();
+});
 
 
+// appNameElem.addEventListener('touchend', () => {
+//   drakModeToggle();
+//   darkMode();
+// });

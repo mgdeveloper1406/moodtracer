@@ -275,12 +275,12 @@ html {
 
 /* 다크모드 */
 
-.white-bg {
+body.white-bg {
   background: #fff;
   transition: 0.3s ease;
 }
 
-.dark-bg {
+body.dark-bg {
   background: #000;
   color: #fff;
   transition: 0.3s ease;
@@ -325,6 +325,11 @@ html {
     width: 425px;
     background-color: #fff;
     padding: 10px 30px;
+  }
+
+  .wrapper.dark {
+    background-color: #000;
+    transition: 0.3s ease;
   }
 
   .mood-wrapper {
