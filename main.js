@@ -327,6 +327,11 @@ if (matchMedia('screen and (max-width: 425px)').matches) {
     darkMode();
   });
 
+  appNameElem.addEventListener('touchend', () => {
+    drakModeToggle();
+    darkMode();
+  });
+
 }
 
 
