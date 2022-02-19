@@ -324,13 +324,13 @@ if (savedDarkMode === null) {
   darkMode();
 }
 
-appNameElem.addEventListener('click', () => {
-  drakModeToggle();
-  darkMode();
-});
-
-
-// appNameElem.addEventListener('touchend', () => {
+// appNameElem.addEventListener('click', () => {
 //   drakModeToggle();
 //   darkMode();
 // });
+
+
+appNameElem.addEventListener('touchend', () => {
+  drakModeToggle();
+  darkMode();
+});
