@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Poppins:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
+  <title>Mood Tracker</title>
+</head>
+<body>
+  <div class="container">
+    <div class="wrapper">
+      <div class="header">
+        <div class="hello">Hello,</div>
+        <form class="name-form hidden">
+          <input type="text" placeholder="What's your name?" maxlength="15" required>
+        </form>
+        <div class="user-name"></div>
+        <div class="share hidden"><span>TWITTER ↗</span></div>
+      </div>
+
+      <div class="mood-wrapper">
+      </div>
+
+      <div class="footer">
+        <div class="main-text">
+          <div class="month"></div>
+          <div class="app-name"><span>Mood</span><br><span>Tracker</span></div>
+        </div>
+        <div class="btn-mood hidden"><span>+</span></div>
+      </div>
+
+      <div class="mood-slc-wrapper close">
+        <span class="title">How was your day?</span>
+        <div class="txt-score">Rate your mood :</div>
+        <div class="mood-slc">
+          <div class="btn-mood-slc" data-score="1"><span>1</span></div>
+          <div class="btn-mood-slc" data-score="2"><span>2</span></div>
+          <div class="btn-mood-slc" data-score="3"><span>3</span></div>
+          <div class="btn-mood-slc" data-score="4"><span>4</span></div>
+          <div class="btn-mood-slc" data-score="5"><span>5</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
