@@ -1,3 +1,6 @@
+const body = document.querySelector('body');
+const appNameElem = document.querySelector('.app-name');
+
 const nameFormElem = document.querySelector('.name-form');
 const nameInputElem = document.querySelector('.name-form input');
 const displayName = document.querySelector('.user-name');
@@ -11,7 +14,8 @@ const btnMoodSlcElems = document.querySelectorAll('.btn-mood-slc');
 const btnShareElem = document.querySelector('.share');
 const shareResultElem = document.querySelector('.share-result');
 
-const savedUsername = localStorage.getItem('username')
+const savedUsername = localStorage.getItem('username');
+
 
 const scoreEmoji = ['⚫️', '🔴', '🟠', '🟡', '🔵', '🟢'];
 
@@ -95,7 +99,7 @@ function modUsername() {
   nameFormElem.addEventListener('focusout', () => {
     const username = nameInputElem.value;
     console.log(username)
-    if (username !== '') {
+    if (username !== '' & username !== ' ') {
       focusOut();
     }
   });
@@ -118,6 +122,7 @@ function renderCircle(mood, i) {
   moodWrapperElem.appendChild(moodCircleDiv);
   moodCircleDiv.appendChild(circleDateSpan);
 }
+
 
 
 // 날짜 토글
@@ -211,10 +216,10 @@ submitMood();
 
 
 
-const result = [];
+let result = [];
 let resultText = '';
 function share() {
-  const result = [];
+  result = [];
   const moodCircleElems = document.querySelectorAll('.mood-circle');
   let shareResult = '';
   resultText = '';
@@ -270,3 +275,59 @@ window.addEventListener('touchend', (e) => {
     return;
   }
 });
+
+
+
+if (matchMedia('screen and (max-width: 425px)').matches) {
+  let darkToggle = false;
+
+  function drakModeToggle() {
+    if (darkToggle === true) {
+      darkToggle = !darkToggle;
+      localStorage.setItem('darkmode', darkToggle);
+    } else {
+      darkToggle = !darkToggle;
+      localStorage.setItem('darkmode', darkToggle);
+    }
+  }
+  
+  function darkMode() {
+    if (darkToggle == true) { //다크모드 활성화
+      body.classList.remove('white-bg');
+      body.classList.add('dark-bg');
+      nameFormElem.classList.add('dark');
+      moodSlcWrapperElem.classList.add('dark');
+      btnMood.classList.add('white');
+      document.querySelectorAll('.circle-date').forEach((item) => {
+        item.classList.add('dark');
+      });
+    } else { //다크모드 비활성화
+      body.classList.remove('dark-bg');
+      body.classList.add('white-bg');
+      nameFormElem.classList.remove('dark');
+      moodSlcWrapperElem.classList.remove('dark');
+      btnMood.classList.remove('white');
+      document.querySelectorAll('.circle-date').forEach((item) => {
+        item.classList.remove('dark');
+      });
+    }
+  }
+  
+  const savedDarkMode = localStorage.getItem('darkmode');
+  
+  if (savedDarkMode === null) {
+    darkToggle = false;
+  } else {
+    darkToggle = JSON.parse(savedDarkMode);
+    darkMode();
+  }
+  
+  appNameElem.addEventListener('click', () => {
+    drakModeToggle();
+    darkMode();
+  });
+
+}
+
+
+

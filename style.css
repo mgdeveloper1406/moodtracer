@@ -74,32 +74,32 @@ html {
 }
 
 .mood-circle[data-score="0"] {
-  background-color: #333;
+  background-color: #4d4d4d;
   border: 0;
 }
 
 .mood-circle[data-score="1"] {
-  background-color: #d83331;
+  background-color: #e65744;
   border: 0;
 }
 
 .mood-circle[data-score="2"] {
-  background-color: #ff883a;
+  background-color: #ff8f57;
   border: 0;
 }
 
 .mood-circle[data-score="3"] {
-  background-color: #fbd029;
+  background-color: #fccc60;
   border: 0;
 }
 
 .mood-circle[data-score="4"] {
-  background-color: #096af2;
+  background-color: #5f8ef0;
   border: 0;
 }
 
 .mood-circle[data-score="5"] {
-  background-color: #149449;
+  background-color: #36986d;
   border: 0;
 }
 
@@ -194,7 +194,7 @@ html {
   font-size: 3rem;
   font-weight: 300;
   padding-bottom: 0.7em;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid;
   margin-bottom: 0.5em;
   pointer-events: none;
 }
@@ -226,23 +226,23 @@ html {
 }
 
 .btn-mood-slc:nth-child(1) {
-  background-color: #d83331;
+  background-color: #e65744;
 }
 
 .btn-mood-slc:nth-child(2) {
-  background-color: #ff883a;
+  background-color: #ff8f57;
 }
 
 .btn-mood-slc:nth-child(3) {
-  background-color: #fbd029;
+  background-color: #fccc60;
 }
 
 .btn-mood-slc:nth-child(4) {
-  background-color: #096af2;
+  background-color: #5f8ef0;
 }
 
 .btn-mood-slc:nth-child(5) {
-  background-color: #149449;
+  background-color: #36986d;
   margin-right: 0;
 }
 
@@ -273,7 +273,44 @@ html {
 }
 
 
-@media screen and (min-width: 425px) {
+/* 다크모드 */
+
+.white-bg {
+  background: #fff;
+  transition: 0.3s ease;
+}
+
+.dark-bg {
+  background: #000;
+  color: #fff;
+  transition: 0.3s ease;
+}
+
+.name-form.dark input {
+  background: #000;
+  color: #cfcfcf;
+}
+
+.btn-mood.white {
+  background: #fff;
+  color: #000;
+}
+
+.mood-slc-wrapper.dark {
+  background: #000;
+  border: 1px solid #fff;
+  border-bottom: 0;
+  border-right: 0;
+}
+
+.circle-date.dark {
+  color: #000;
+}
+
+
+
+
+@media screen and (min-width: 426px) {
   .container {
     width: 100vw;
     height: 100vh;
@@ -291,7 +328,7 @@ html {
   }
 
   .mood-wrapper {
-    margin-bottom: 180px;
+    margin-bottom: 150px;
   }
 
   .share {
