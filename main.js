@@ -278,7 +278,7 @@ window.addEventListener('touchend', (e) => {
 
 
 
-if (matchMedia('screen and (max-width: 425px)').matches) {
+if (window.matchMedia('(max-width: 425px)').matches) {
   let darkToggle = false;
 
   function drakModeToggle() {
