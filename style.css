@@ -16,7 +16,7 @@ html {
 
 .header {
   position: relative;
-  margin-top: 20px;
+  margin-top: 26px;
 }
 
 .hello,
@@ -126,7 +126,7 @@ html {
 .footer {
   position: fixed;
   width: calc(100% - 40px);
-  bottom: 20px;
+  bottom: 26px;
 }
 
 .month {
