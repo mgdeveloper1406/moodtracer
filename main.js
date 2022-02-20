@@ -126,6 +126,7 @@ displayName.addEventListener('click', modUsername);
 
 
 
+
 function renderCircle(mood, i) {
   const moodCircleDiv = document.createElement('div');
   const circleDateSpan = document.createElement('span');
