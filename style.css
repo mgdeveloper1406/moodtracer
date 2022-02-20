@@ -422,6 +422,11 @@ body.dark-bg {
     font-size: 3rem;
   }
   
+
+  .theme-bubble {
+    display: none;
+  }
+
   .btn-mood-slc {
     width: 54px;
     height: 54px;

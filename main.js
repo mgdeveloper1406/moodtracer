@@ -283,8 +283,8 @@ btnShareElem.addEventListener('click', () => {
 // %0a : 줄바꿈
 // %2f : 슬래시
 function shareTwitter() {
-  const shareUrl = "https://mood-trckr.netlify.app"; // 전달할 URL
-  window.open(`https://twitter.com/intent/tweet?text=Mood rating for today: ${moods[date - 1].score}%2f5 ${scoreEmoji[moods[date - 1].score]}%0a%0a${monthNameShort} Mood:%0a${resultText}%0a%23MoodTracker %23Mood`);
+  const shareUrl = "https://mood-circle.netlify.app"; // 전달할 URL
+  window.open(`https://twitter.com/intent/tweet?text=Mood rating for today: ${moods[date - 1].score}%2f5 ${scoreEmoji[moods[date - 1].score]}%0a%0a${monthNameShort} Mood:%0a${resultText}%0a%23MoodCircle %23Mood`);
 }
 
 
