@@ -457,7 +457,9 @@ function shareTwitter() {
 btnShareElem.addEventListener('click', () => {
   setDate();
   console.log(moods[date - 1].score);
-  if (navigator.share) {
+  if (moods[date - 1].score == 6) {
+    shareCheck();
+  } else if (navigator.share) {
     shareText();
     navigator.share({
       title: '',
