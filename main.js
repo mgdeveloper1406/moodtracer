@@ -3,6 +3,7 @@ const warpperElem = document.querySelector('.wrapper');
 const appNameElem = document.querySelector('.app-name');
 const themeBubbleElem = document.querySelector('.theme-bubble');
 const toastElem = document.querySelector('.toast');
+const dimmedElem = document.querySelector('.dimmed');
 
 const nameFormElem = document.querySelector('.name-form');
 const nameInputElem = document.querySelector('.name-form input');
@@ -14,13 +15,29 @@ const btnMood = document.querySelector('.btn-mood');
 const moodSlcWrapperElem = document.querySelector('.mood-slc-wrapper');
 const btnMoodSlcElems = document.querySelectorAll('.btn-mood-slc');
 
+
+const btnToggleDateElem = document.querySelector('.toggle-date');
+const btnToggleDateSpanElem = document.querySelector('.toggle-date span');
 const btnShareElem = document.querySelector('.share');
-const shareResultElem = document.querySelector('.share-result');
+
+const oneLineResultElem = document.querySelector('.share-result');
 
 const savedUsername = localStorage.getItem('username');
 
-
 const scoreEmoji = ['⚫️', '🔴', '🟠', '🟡', '🔵', '🟢'];
+
+
+const datePickerWrapperElem = document.querySelector('.date-picker-wrapper');
+const datePickerYearElem = document.querySelector('.date-picker-year');
+const datePickerYearSpanElem = document.querySelector('.date-picker-year span');
+const btnYearPrevElem = document.querySelector('.year-prev');
+const btnYearNextElem = document.querySelector('.year-next');
+
+const datePickerMonthElem = document.querySelector('.date-picker-month');
+const datePickerMonthCircleElems = document.querySelectorAll('.date-picker-month .month-circle');
+const dimmedBlackElem = document.querySelector('.dimmed-black');
+
+
 
 let today = new Date();
 let year = today.getFullYear(); // 년도
@@ -31,8 +48,25 @@ let padDate = String(date).padStart(2, '0');
 let lastdate = new Date(year, month, 0).getDate();
 let monthNameShort = today.toLocaleString('en-US', { month: 'short' });
 
+let todayString = today.toString();
+let week = todayString.slice(0, 3);
+console.log(week)
+
+
 
 let moods = [];
+let filteredMoods = [];
+let unfilteredMoods = [];
+let currentPageInfo = {
+  year,
+  month,
+};
+
+let moodCircleElems;
+let todayInfo;
+
+
+
 
 
 function setDate() {
@@ -44,43 +78,6 @@ function setDate() {
   padDate = String(date).padStart(2, '0');
   lastdate = new Date(year, month, 0).getDate();
   monthNameShort = today.toLocaleString('en-US', { month: 'short' });
-}
-
-
-monthElem.textContent = `${year}${padMonth}${padDate}`;
-
-function saveData() {
-  localStorage.setItem('moods', JSON.stringify(moods));
-}
-
-function setDateDay1() {
-  moods = [];
-  setData();
-  saveData();
-}
-
-
-function setData() {
-  let dateNum = 1;
-  for (let i = 0; i < lastdate; i++) {
-    if (dateNum < date) {
-      const setMoods =  {
-        month: month,
-        date: dateNum,
-        score: 0, //검정동그라미
-      };
-      moods.push(setMoods);
-    } else {
-      const setMoods =  {
-        month: month,
-        date: dateNum,
-        score: 6, //빈동그라미
-      };
-      moods.push(setMoods);
-    }
-    dateNum++;
-  }
-  saveData();
 }
 
 
@@ -114,66 +111,18 @@ function modUsername() {
   nameFormElem.addEventListener('submit', onSubmit);
   nameFormElem.addEventListener('focusout', () => {
     const username = nameInputElem.value;
-    console.log(username)
     if (username !== '' & username !== ' ') {
       focusOut();
     }
   });
 }
 
-displayName.addEventListener('touchend', modUsername);
-displayName.addEventListener('click', modUsername);
-
-
-
-
-function renderCircle(mood, i) {
-  const moodCircleDiv = document.createElement('div');
-  const circleDateSpan = document.createElement('span');
-  circleDateSpan.classList.add('circle-date');
-  circleDateSpan.classList.add('opa-0');
-  moodCircleDiv.classList.add('mood-circle');
-  moodCircleDiv.dataset.date = i + 1;
-  moodCircleDiv.dataset.score = mood.score;
-  circleDateSpan.innerText = i + 1;
-  moodWrapperElem.appendChild(moodCircleDiv);
-  moodCircleDiv.appendChild(circleDateSpan);
-}
-
-
-
-// 날짜 토글
-window.addEventListener('DOMContentLoaded', () => {
-  const moodCircleElems = document.querySelectorAll('.mood-circle');
-  const circleDateSpanElems = document.querySelectorAll('.circle-date');
-  moodCircleElems.forEach((item, i) => {
-    let toggle = true;
-    item.addEventListener('click', () => {
-      if (toggle) {
-        circleDateSpanElems.forEach((item) => {
-          item.classList.remove('opa-0');
-          item.classList.add('opa-100');
-        });
-        toggle = !toggle;
-      } else {
-        circleDateSpanElems.forEach((item) => {
-          item.classList.remove('opa-100');
-          item.classList.add('opa-0');
-        });
-        toggle = !toggle;
-      }
-    });
-  });
-});
-
-
 
 if (savedUsername === null) {
   nameFormElem.classList.remove('hidden');
-  nameFormElem.addEventListener('submit', onSubmit); //submit : 엔터를 누르거나 버튼을 클릭할 때 발생
+  nameFormElem.addEventListener('submit', onSubmit);
   nameFormElem.addEventListener('focusout', () => {
     const username = nameInputElem.value;
-    console.log(username)
     if (username !== '') {
       focusOut();
     }
@@ -185,73 +134,280 @@ if (savedUsername === null) {
 
 
 
+displayName.addEventListener('touchend', modUsername);
+displayName.addEventListener('click', modUsername);
+
+
+
+btnToggleDateSpanElem.textContent = `${date} ${week}`
+monthElem.textContent = `${year}${padMonth}`;
+
+
+
+
+function saveData() {
+  localStorage.setItem('moods', JSON.stringify(moods));
+}
+
+
+// function setDateDay1() {
+//   moods = [];
+//   setData();
+//   saveData();
+// }
+
+
+
+function setData() {
+  let dateNum = 1;
+  for (let i = 0; i < lastdate; i++) {
+    let setMoods =  {
+      year: year,
+      month: month,
+      date: dateNum,
+    };
+    if (dateNum < date) {
+      setMoods.score = 0; // 까만동그라미
+      moods.push(setMoods);
+    } else {
+      setMoods.score = 6; // 빈 동그라미
+      moods.push(setMoods);
+    }
+    dateNum++;
+  }
+}
+
+
+function changeDate(currentY, currentM) {
+  currentPageInfo.year = currentY;
+  currentPageInfo.month = currentM;
+}
+
+
+function filterMood() {
+  filteredMoods = moods.filter((item) => {
+    return item.year == currentPageInfo.year && item.month == currentPageInfo.month;
+  });
+}
+
+
+
+function render() {
+  filterMood();
+  let renderMoods = filteredMoods;
+  moodWrapperElem.innerHTML = '';
+  renderMoods.forEach((item, i) => {
+    const moodCircleDiv = document.createElement('div');
+    const circleDateSpan = document.createElement('span');
+    circleDateSpan.classList.add('circle-date');
+    circleDateSpan.classList.add('opa-0');
+    moodCircleDiv.classList.add('mood-circle');
+    // moodCircleDiv.setAttribute('onclick', 'changeMood(this)');
+    // moodCircleDiv.setAttribute('ontouchend', 'javascript:changeMood(this)');
+    moodCircleDiv.dataset.year = currentPageInfo.year;
+    moodCircleDiv.dataset.month = currentPageInfo.month;
+    moodCircleDiv.dataset.date = i + 1;
+    moodCircleDiv.dataset.score = item.score;
+    circleDateSpan.innerText = i + 1;
+    moodWrapperElem.appendChild(moodCircleDiv);
+    moodCircleDiv.appendChild(circleDateSpan);
+  });
+  moodCircleEvent();
+}
+
+
+function moodCircleEvent() {
+  let moodCircleElems = document.querySelectorAll('.mood-circle');
+
+  Array.from(moodCircleElems).forEach((item) => {
+    item.addEventListener('click', (e) => {
+      console.log(e.target);
+      changeMood(e.target);
+    });
+  });
+}
+
+
+
+
+btnMoodSlcElems.forEach((item) => {
+  item.addEventListener('click', submitMood);
+});
+
+
+
+function submitMood(e) {
+  const ratedScore = e.currentTarget.dataset.score;
+  moods.forEach((item) => {
+    if (item.year == year && item.month == month && item.date == date) {
+      item.score = ratedScore;
+    }
+  });
+  saveData();
+  currentPageInfo.year = year;
+  currentPageInfo.month = month;
+  render(moods);
+  moodSlcWrapperElem.classList.remove('open');
+  moodSlcWrapperElem.classList.add('close');
+  btnShareElem.classList.remove('hidden');
+  dimmedElem.classList.add('hidden');
+  monthElem.textContent = `${year}${padMonth}`;
+}
+
+
+
 const savedMoods = localStorage.getItem('moods');
 
 if (savedMoods === null) {
   setData();
-  moods.forEach(renderCircle);
+  saveData();
+  render(moods);
 } else {
-    let parseMoods = JSON.parse(savedMoods);
-    moods = parseMoods;
-  if (moods[0].month != month) {
-    setDateDay1();
-    moods.forEach(renderCircle);
-  } else {
-    moods.forEach((item) => {
-      if (item.score == 6 && item.date < date) {
-        item.score = 0;
+  let parseMoods = JSON.parse(savedMoods);
+  moods = parseMoods;
+  filterMood();
+  if (filteredMoods[0] == null) {
+    setData();
+  }
+  filteredMoods.forEach((item) => {
+    if (item.date < date && item.score == 6) {
+      item.score = 0;
+    }
+  });
+  saveData();
+  render(moods);
+}
+
+
+
+function changeMood(clickedElem) {
+  const clickedYear = parseInt(clickedElem.dataset.year);
+  const clickedMonth = parseInt(clickedElem.dataset.month - 1);
+  const clickedDate = parseInt(clickedElem.dataset.date);
+  const clickedNow = new Date(clickedYear, clickedMonth, clickedDate);
+  let clickedScore = clickedElem.dataset.score;
+  console.log(clickedNow <= today);
+  console.log(today);
+  console.log(clickedNow);
+
+  if (clickedNow <= today) {
+    filteredMoods.forEach((item) => {
+      if (item.date == clickedDate) {
+        item.score = (item.score + 1)%6;
       }
     });
-    moods.forEach(renderCircle);
+    saveData();
+    render(moods);
   }
 }
 
 
 
-if (moods[date - 1].score != 0 && moods[date - 1].score != 6) {
-  btnShareElem.classList.remove('hidden');
-} else {
-  btnShareElem.classList.add('hidden');
-}
-
-
-function submitMood() {
-  btnMoodSlcElems.forEach((item) => {
-    item.addEventListener('click', (e) => {
-      const todayScore = e.currentTarget.dataset.score;
-      const todayCircle = document.querySelector(`.mood-circle:nth-child(${date})`);
-      todayCircle.dataset.score = todayScore;
-      moods[date - 1].score = todayScore;
-      saveData()
-      moodSlcWrapperElem.classList.remove('open');
-      moodSlcWrapperElem.classList.add('close');
-      btnShareElem.classList.remove('hidden');
-      monthElem.textContent = `${year}${padMonth}${padDate}`;
+let isDateToggled = false;
+function dateToggle() {
+  const circleDateSpanElems = document.querySelectorAll('.circle-date');
+  if (!isDateToggled) {
+    circleDateSpanElems.forEach((item) => {
+      item.classList.remove('opa-0');
+      item.classList.add('opa-100');
     });
-  });
-}
-
-submitMood();
-
-
-
-let result = [];
-let resultText = '';
-function share() {
-  result = [];
-  const moodCircleElems = document.querySelectorAll('.mood-circle');
-  let shareResult = '';
-  resultText = '';
-  moodCircleElems.forEach((item) => {
-    item.dataset.score == 6 ? false : shareResult += scoreEmoji[item.dataset.score];
-  });
-  const resultLine = Math.ceil((shareResult.length / 2) / 7);
-  for (let i = 0; i < resultLine; i++) {
-    result.push(shareResult.substr(i * 14, 14));
-    resultText += `${result[i]}%0a`;
+    isDateToggled = !isDateToggled;
+  } else {
+    circleDateSpanElems.forEach((item) => {
+      item.classList.remove('opa-100');
+      item.classList.add('opa-0');
+    });
+    isDateToggled = !isDateToggled;
   }
-  console.log(resultText);
 }
+
+btnToggleDateElem.addEventListener('click', dateToggle);
+
+
+
+// 무드 추가 버튼 클릭 시 열기/닫기
+function openMoodSelector() {
+  moodSlcWrapperElem.classList.remove('close');
+  moodSlcWrapperElem.classList.add('open');
+  dimmedElem.classList.remove('hidden');
+}
+
+btnMood.addEventListener('click', openMoodSelector);
+
+
+// 무드 선택창 외부 영역 클릭 시 숨기기
+dimmedElem.addEventListener('click', (e) => {
+  moodSlcWrapperElem.classList.add('close');
+  moodSlcWrapperElem.classList.remove('open');
+  dimmedElem.classList.add('hidden');
+});
+
+
+// 무드 선택창 외부 영역 클릭 시 숨기기
+dimmedElem.addEventListener('touchend', (e) => {
+  moodSlcWrapperElem.classList.add('close');
+  moodSlcWrapperElem.classList.remove('open');
+  dimmedElem.classList.add('hidden');
+});
+
+
+
+
+
+
+// const textArea = document.querySelector('.textarea');
+// let result = [];
+// let multiLineResult = '';
+
+// function share() {
+//   result = [];
+//   const moodCircleElems = document.querySelectorAll('.mood-circle');
+//   let oneLineResult = '';
+//   multiLineResult = '';
+//   moodCircleElems.forEach((item) => {
+//     item.dataset.score == 6 ? false : oneLineResult += scoreEmoji[item.dataset.score];
+//   });
+//   const resultLineNum = Math.ceil((oneLineResult.length / 2) / 7);
+//   for (let i = 0; i < resultLineNum; i++) {
+//     result.push(oneLineResult.substr(i * 14, 14));
+//     multiLineResult += `${result[i]}%0a`;
+//   }
+//   console.log(multiLineResult);
+// }
+
+
+
+
+
+const textArea = document.querySelector('.textarea');
+let result = [];
+let multiLineResult = '';
+
+function shareText() {
+  result = [];
+  textArea.textContent = '';
+  const moodCircleElems = document.querySelectorAll('.mood-circle');
+  let oneLineResult = '';
+  multiLineResult = '';
+  moodCircleElems.forEach((item) => {
+    item.dataset.score == 6 ? false : oneLineResult += scoreEmoji[item.dataset.score];
+  });
+  const resultLineNum = Math.ceil((oneLineResult.length / 2) / 7);
+  textArea.textContent =`Mood rating for today: ${moods[date - 1].score}/5 ${scoreEmoji[moods[date - 1].score]}\n\n${monthNameShort} Mood:\n`;
+  for (let i = 0; i < resultLineNum; i++) {
+    result.push(oneLineResult.substr(i * 14, 14));
+    textArea.textContent += `${result[i]}\n`;
+    // multiLineResult += `${result[i]}%0a`;
+  }
+  textArea.textContent += `\n#MoodCircle #Mood`;
+  textArea.select();
+  textArea.setSelectionRange(0, 99999);
+  document.execCommand('copy');
+  // console.log(multiLineResult);
+}
+
+
+
 
 
 const toast = document.querySelector('.toast');
@@ -268,57 +424,59 @@ function shareCheck() {
 }
 
 
-btnShareElem.addEventListener('click', () => {
-  setDate();
-  if (moods[date - 1].score == 6) {
-    shareCheck();
-  } else {
-    share();
-    shareTwitter();
-  }
-});
-
-
 
 // URL Encoding
 // %0a : 줄바꿈
 // %2f : 슬래시
+// function shareTwitter() {
+//   const shareUrl = "https://mood-circle.netlify.app"; // 전달할 URL
+//   window.open(`https://twitter.com/intent/tweet?text=Mood rating for today: ${moods[date - 1].score}%2f5 ${scoreEmoji[moods[date - 1].score]}%0a%0a${monthNameShort} Mood:%0a${multiLineResult}%0a%23MoodCircle %23Mood`);
+// }
+
+
 function shareTwitter() {
   const shareUrl = "https://mood-circle.netlify.app"; // 전달할 URL
-  window.open(`https://twitter.com/intent/tweet?text=Mood rating for today: ${moods[date - 1].score}%2f5 ${scoreEmoji[moods[date - 1].score]}%0a%0a${monthNameShort} Mood:%0a${resultText}%0a%23MoodCircle %23Mood`);
+  window.open(`https://twitter.com/intent/tweet?text=${textArea}`);
 }
 
 
 
-// 모달창 열기/닫기
-btnMood.addEventListener('click', () => {
-  moodSlcWrapperElem.classList.remove('close');
-  moodSlcWrapperElem.classList.add('open');
-});
+// btnShareElem.addEventListener('click', () => {
+//   setDate();
+//   if (moods[date - 1].score == 6) {
+//     shareCheck();
+//   } else {
+//     shareText();
+//     shareTwitter();
+//   }
+// });
 
 
 
-// 모달창 외부 영역 클릭 시 숨기기
-window.addEventListener('click', (e) => {
-  if (e.target !== moodSlcWrapperElem && e.target !== btnMood) {
-    moodSlcWrapperElem.classList.add('close');
-    moodSlcWrapperElem.classList.remove('open');
+
+btnShareElem.addEventListener('click', () => {
+  setDate();
+  if (moods[date - 1].score == 6) {
+    shareCheck();
+  } else if (navigator.share) {
+    shareText();
+    navigator.share({
+      title: '',
+      text: `${textArea.textContent}adfadf`,
+      url: '',
+    }).then(() => {
+      console.log('Thanks for sharing!');
+    })
+    .catch(console.error);
   } else {
-    return;
+    // fallback
   }
 });
 
-window.addEventListener('touchend', (e) => {
-  if (e.target !== moodSlcWrapperElem && e.target !== btnMood) {
-    moodSlcWrapperElem.classList.add('close');
-    moodSlcWrapperElem.classList.remove('open');
-  } else {
-    return;
-  }
-});
 
 
 
+// 다크모드
 let darkToggle = false;
 
 function drakModeToggle() {
@@ -332,7 +490,7 @@ function drakModeToggle() {
 }
 
 function darkMode() {
-  if (darkToggle == true) { //다크모드 활성화
+  if (darkToggle == true) { // 다크모드 활성화
     body.classList.remove('white-bg');
     body.classList.add('dark-bg');
     warpperElem.classList.add('dark');
@@ -343,7 +501,12 @@ function darkMode() {
     document.querySelectorAll('.circle-date').forEach((item) => {
       item.classList.add('dark');
     });
-  } else { //다크모드 비활성화
+    datePickerWrapperElem.classList.add('dark');
+    datePickerYearElem.classList.add('dark');
+    btnYearPrevElem.classList.add('dark');
+    btnYearNextElem.classList.add('dark');
+    datePickerMonthElem.classList.add('dark');
+  } else { // 다크모드 비활성화
     body.classList.remove('dark-bg');
     body.classList.add('white-bg');
     warpperElem.classList.remove('dark');
@@ -354,6 +517,11 @@ function darkMode() {
     document.querySelectorAll('.circle-date').forEach((item) => {
       item.classList.remove('dark');
     });
+    datePickerWrapperElem.classList.remove('dark');
+    datePickerYearElem.classList.remove('dark');
+    btnYearPrevElem.classList.remove('dark');
+    btnYearNextElem.classList.remove('dark');
+    datePickerMonthElem.classList.remove('dark');
   }
 }
 
@@ -374,3 +542,108 @@ appNameElem.addEventListener('touchend', () => {
   drakModeToggle();
   darkMode();
 });
+
+
+
+
+// 날짜 선택
+
+
+let savedYear;
+let savedMonth;
+let selectedYear = currentPageInfo.year;
+let selectedMonth = currentPageInfo.month;
+
+
+function datePicker() {
+  datePickerYearSpanElem.innerText = currentPageInfo.year;
+
+  savedYear = new Set(moods.map((item) => item.year));
+  savedYear = [...savedYear];
+  
+  btnYearPrevElem.addEventListener('click', () => {
+    if (savedYear.some((item) => item < selectedYear)) {
+      selectedYear--;
+      datePickerYearSpanElem.innerText = selectedYear;
+      datePickerMonthRender();
+    } else {
+      return;
+    }
+  });
+
+  btnYearNextElem.addEventListener('click', () => {
+    if (savedYear.some((item) => item > selectedYear)) {
+      selectedYear++;
+      datePickerYearSpanElem.innerText = selectedYear;
+      datePickerMonthRender();
+    } else {
+      return;
+    }
+  });
+}
+
+datePicker();
+
+
+function datePickerMonthRender() {
+  savedMonth = moods.filter((item) => {
+    return item.year == selectedYear;
+  });
+  savedMonth = new Set(savedMonth.map(item => item.month));
+  savedMonth = [...savedMonth];
+
+  datePickerMonthCircleElems.forEach((item) => {
+    item.dataset.year = selectedYear;
+  });
+  
+  datePickerMonthCircleElems.forEach((item) => {
+    if (savedMonth.includes(parseInt(item.dataset.month))) {
+      item.dataset.status = 'exist';
+      item.addEventListener('click', onPickerMonth);
+      item.addEventListener('click', closeDatePicker);
+    } else {
+      item.dataset.status = 'empty';
+      item.removeEventListener('click', onPickerMonth);
+      item.removeEventListener('click', closeDatePicker);
+    }
+    if (item.dataset.year == currentPageInfo.year && item.dataset.month == currentPageInfo.month) {
+      item.dataset.status = 'selected';
+    }
+  });
+}
+
+datePickerMonthRender();
+
+
+function onPickerMonth(e) {
+  currentPageInfo.year = e.currentTarget.dataset.year;
+  currentPageInfo.month = e.currentTarget.dataset.month;
+  monthElem.textContent = `${currentPageInfo.year}${String(currentPageInfo.month).padStart(2, '0')}`;
+  datePickerMonthRender();
+  render(moods);
+}
+
+
+
+function openDatePicker() {
+  datePickerWrapperElem.classList.remove('close');
+  datePickerWrapperElem.classList.add('open');
+  dimmedBlackElem.classList.remove('hidden');
+}
+
+function closeDatePicker() {
+  datePickerWrapperElem.classList.add('close');
+  datePickerWrapperElem.classList.remove('open');
+  dimmedBlackElem.classList.add('hidden');
+}
+
+monthElem.addEventListener('click', openDatePicker);
+
+
+// 날짜 선택창 외부 영역 클릭 시 숨기기
+dimmedBlackElem.addEventListener('click', closeDatePicker);
+
+
+// 날짜 선택창 외부 영역 클릭 시 숨기기
+dimmedBlackElem.addEventListener('touchend', closeDatePicker);
+

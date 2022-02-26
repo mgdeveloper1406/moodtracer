@@ -42,12 +42,25 @@ html {
   /* border-bottom: 1px solid; */
 }
 
-.share {
+.header-btns {
   position: absolute;
   right: 0;
   top: 0;
   font-size: 1.2rem;
   font-weight: 300;
+  display: flex;
+}
+
+.toggle-date {
+  display: inline-block;
+  padding: 4px 8px;
+  margin-right: 8px;
+  border: 1px solid;
+  border-radius: 50% / 60%;
+}
+
+.share {
+  display: inline-block;
   padding: 4px 8px;
   border: 1px solid;
   border-radius: 50% / 60%;
@@ -112,6 +125,7 @@ html {
 
 
 .circle-date {
+  cursor: pointer;
   font-size: 1.4rem;
   display: block;
   position: absolute;
@@ -122,6 +136,10 @@ html {
   color: #fff;
 }
 
+.circle-date span {
+  pointer-events: none;
+}
+
 
 .footer {
   position: fixed;
@@ -130,7 +148,7 @@ html {
 }
 
 .month {
-  font-size: 2.5rem;
+  font-size: 2.7rem;
   font-weight: 300;
   margin-bottom: 0.5em;
 }
@@ -218,12 +236,12 @@ html {
 
 
 .btn-mood {
-  width: 50px;
-  height: 50px;
+  width: 56px;
+  height: 56px;
   /* border: 1px solid #000; */
   color: #fff;
   background: #000;
-  font-size: 2.8rem;
+  font-size: 3rem;
   font-weight: 200;
   padding-top: 2px;
   border-radius: 50%;
@@ -330,6 +348,12 @@ html {
 
 .opa-0 {
   opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s;
+}
+
+.opa-50 {
+  opacity: 0.5;
   transition: opacity 0.3s;
 }
 
@@ -337,6 +361,133 @@ html {
   opacity: 1;
   transition: opacity 0.3s;
 }
+
+
+.dimmed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+}
+
+
+.date-picker-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  padding: 40px 30px 30px;
+  background: #fff;
+  border: 0;
+  border-top: 1px solid #000;
+  border-radius: 20px 20px 0 0;
+  z-index: 99;
+}
+
+
+.date-picker-wrapper.open {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: 0.3s ease-in-out;
+}
+
+.date-picker-wrapper.close {
+  opacity: 0;
+  transform: translate3d(0, 100%, 0);
+  transition: 0.3s ease-in-out;
+}
+
+
+
+.date-picker-year {
+  display: flex;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.date-picker-year span {
+  font-size: 2.5rem;
+  padding: 0 1em;
+}
+
+.year-prev,
+.year-next {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-left: 1px solid #000;
+  border-bottom: 1px solid #000;
+  margin-top: 4px;
+}
+
+.year-prev {
+  transform: rotate(45deg);
+}
+
+.year-next {
+  transform: rotate(-135deg);
+}
+
+
+.date-picker-month {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+
+.date-picker-month .month-circle {
+  width: calc(calc(100% - 40px) / 6);
+  padding-bottom: calc(calc(100% - 52px) / 6);
+  margin-right: 8px;
+  margin-bottom: 8px;
+  color: #b2b2b2;
+  border: 1px dashed #b2b2b2;
+  border-radius: 50%;
+  position: relative;
+  text-align: center;
+}
+
+
+.date-picker-month .month-circle[data-status="exist"] {
+  background: #b2b2b2;
+  color: #fff;
+  border: 0;
+}
+
+.date-picker-month .month-circle[data-status="selected"] {
+  background: #333;
+  color: #fff;
+  border: 0;
+}
+
+
+.date-picker-month .month-circle span {
+  font-size: 2rem;
+  position: absolute;
+  width: 100%;
+  top: calc(calc(100% - 2rem) / 2);
+  left: 0;
+}
+
+.date-picker-month .month-circle:nth-child(6n) {
+  margin-right: 0;
+}
+
+
+
+.dimmed-black {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.5;
+  background: #000;
+}
+
+
 
 
 /* 다크모드 */
@@ -377,6 +528,39 @@ body.dark-bg {
   filter: invert(100%)
 }
 
+.date-picker-wrapper.dark {
+  background: black;
+  border-color: #fff;
+}
+
+.date-picker-year.dark {
+  color: #fff;
+}
+
+.year-prev.dark,
+.year-next.dark {
+  border-color: #fff;
+}
+
+.date-picker-month.dark .month-circle[data-status="empty"] {
+  color: #b2b2b2;
+}
+
+.date-picker-month.dark .month-circle[data-status="exist"] {
+  background: #b2b2b2;
+  color: #000;
+  border: 0;
+}
+
+.date-picker-month.dark .month-circle[data-status="selected"] {
+  background: #fff;
+  color: #000;
+  border: 0;
+}
+
+
+
+
 
 
 
@@ -406,7 +590,7 @@ body.dark-bg {
     margin-bottom: 150px;
   }
 
-  .share {
+  .header-btns {
     font-size: 1.3rem;
     font-weight: 300;
   }
@@ -458,6 +642,16 @@ body.dark-bg {
   .close {
     display: block;
     visibility: hidden;
+    transform: translate3d(0, 0, 0);
+  }
+
+
+  .date-picker-wrapper {
+    position: absolute;
+    width: inherit;
+  }
+
+  .date-picker-wrapper.close {
     transform: translate3d(0, 0, 0);
   }
 

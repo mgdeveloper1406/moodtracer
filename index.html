@@ -27,11 +27,15 @@
           <input type="text" placeholder="What's your name?" maxlength="15" required>
         </form>
         <div class="user-name"></div>
-        <div class="share hidden"><span>Share</span></div>
+        <div class="header-btns">
+          <div class="toggle-date"><span></span></div>
+          <div class="share"><span>Share</span></div>
+        </div>
       </div>
 
-      <div class="mood-wrapper">
-      </div>
+      <div class="mood-wrapper"></div>
+      <textarea class="textarea"></textarea>
+
 
       <div class="footer">
         <div class="main-text">
@@ -64,6 +68,32 @@
           <div class="btn-mood-slc" data-score="5"><span>5</span></div>
         </div>
       </div>
+
+      <div class="dimmed hidden"></div>
+
+      <div class="date-picker-wrapper close">
+        <div class="date-picker-year">
+          <div class="year-prev"></div>
+          <span></span>
+          <div class="year-next"></div>
+        </div>
+        <div class="date-picker-month">
+          <div class="month-circle" data-status="empty" data-month="1"><span>1</span></div>
+          <div class="month-circle" data-status="empty" data-month="2"><span>2</span></div>
+          <div class="month-circle" data-status="empty" data-month="3"><span>3</span></div>
+          <div class="month-circle" data-status="empty" data-month="4"><span>4</span></div>
+          <div class="month-circle" data-status="empty" data-month="5"><span>5</span></div>
+          <div class="month-circle" data-status="empty" data-month="6"><span>6</span></div>
+          <div class="month-circle" data-status="empty" data-month="7"><span>7</span></div>
+          <div class="month-circle" data-status="empty" data-month="8"><span>8</span></div>
+          <div class="month-circle" data-status="empty" data-month="9"><span>9</span></div>
+          <div class="month-circle" data-status="empty" data-month="10"><span>10</span></div>
+          <div class="month-circle" data-status="empty" data-month="11"><span>11</span></div>
+          <div class="month-circle" data-status="empty" data-month="12"><span>12</span></div>
+        </div>
+      </div>
+
+      <div class="dimmed-black hidden"></div>
 
     </div>
   </div>
