@@ -403,6 +403,7 @@ function shareText() {
   textArea.select();
   textArea.setSelectionRange(0, 99999);
   document.execCommand('copy');
+  textArea.remove();
   // console.log(multiLineResult);
 }
 
