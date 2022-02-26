@@ -49,6 +49,12 @@ html {
   font-size: 1.2rem;
   font-weight: 300;
   display: flex;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .toggle-date {
@@ -65,6 +71,14 @@ html {
   border: 1px solid;
   border-radius: 50% / 60%;
 }
+
+
+.share-text {
+  position: absolute;
+  top: -9999px;
+}
+
+
 
 .mood-wrapper {
   display: flex;
@@ -134,10 +148,13 @@ html {
   top: calc(calc(100% - 1.4rem) / 2);
   left: 0;
   color: #fff;
-}
-
-.circle-date span {
   pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 
@@ -151,12 +168,24 @@ html {
   font-size: 2.7rem;
   font-weight: 300;
   margin-bottom: 0.5em;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .app-name {
   position: relative;
   font-size: 6.5rem;
   font-weight: 200;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .app-name span:nth-child(2) {
@@ -238,7 +267,6 @@ html {
 .btn-mood {
   width: 56px;
   height: 56px;
-  /* border: 1px solid #000; */
   color: #fff;
   background: #000;
   font-size: 3rem;
@@ -251,6 +279,12 @@ html {
   position: absolute;
   right: 0;
   bottom: 4px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .btn-mood span {

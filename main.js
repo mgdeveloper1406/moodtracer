@@ -46,11 +46,11 @@ let date = today.getDate();  // 날짜
 let padMonth = String(month).padStart(2, '0');
 let padDate = String(date).padStart(2, '0');
 let lastdate = new Date(year, month, 0).getDate();
+let yesterday = new Date(year, month - 1, date - 1);
 let monthNameShort = today.toLocaleString('en-US', { month: 'short' });
 
 let todayString = today.toString();
 let week = todayString.slice(0, 3);
-console.log(week)
 
 
 
@@ -221,12 +221,10 @@ function moodCircleEvent() {
 
   Array.from(moodCircleElems).forEach((item) => {
     item.addEventListener('click', (e) => {
-      console.log(e.target);
       changeMood(e.target);
     });
   });
 }
-
 
 
 
@@ -286,11 +284,9 @@ function changeMood(clickedElem) {
   const clickedDate = parseInt(clickedElem.dataset.date);
   const clickedNow = new Date(clickedYear, clickedMonth, clickedDate);
   let clickedScore = clickedElem.dataset.score;
-  console.log(clickedNow <= today);
-  console.log(today);
-  console.log(clickedNow);
 
-  if (clickedNow <= today) {
+  console.log(yesterday <= clickedNow && clickedNow < today);
+  if (yesterday <= clickedNow && clickedNow < today) {
     filteredMoods.forEach((item) => {
       if (item.date == clickedDate) {
         item.score = (item.score + 1)%6;
@@ -379,32 +375,34 @@ dimmedElem.addEventListener('touchend', (e) => {
 
 
 
-const textArea = document.querySelector('.textarea');
+
 let result = [];
 let multiLineResult = '';
+let textAreaElem;
 
 function shareText() {
   result = [];
-  textArea.textContent = '';
   const moodCircleElems = document.querySelectorAll('.mood-circle');
+  textAreaElem = document.createElement('textarea');
+  textAreaElem.classList.add('share-text');
+  body.appendChild(textAreaElem);
+  // textAreaElem.textContent = '';
   let oneLineResult = '';
   multiLineResult = '';
   moodCircleElems.forEach((item) => {
     item.dataset.score == 6 ? false : oneLineResult += scoreEmoji[item.dataset.score];
   });
   const resultLineNum = Math.ceil((oneLineResult.length / 2) / 7);
-  textArea.textContent =`Mood rating for today: ${moods[date - 1].score}/5 ${scoreEmoji[moods[date - 1].score]}\n\n${monthNameShort} Mood:\n`;
+  textAreaElem.textContent =`Mood rating for today: ${moods[date - 1].score}/5 ${scoreEmoji[moods[date - 1].score]}\n\n${monthNameShort} Mood:\n`;
   for (let i = 0; i < resultLineNum; i++) {
     result.push(oneLineResult.substr(i * 14, 14));
-    textArea.textContent += `${result[i]}\n`;
+    textAreaElem.textContent += `${result[i]}\n`;
     // multiLineResult += `${result[i]}%0a`;
   }
-  textArea.textContent += `\n#MoodCircle #Mood`;
-  textArea.select();
-  textArea.setSelectionRange(0, 99999);
-  document.execCommand('copy');
-  textArea.remove();
-  // console.log(multiLineResult);
+  textAreaElem.textContent += `\n#MoodCircle #Mood`;
+  // textAreaElem.select();
+  // textAreaElem.setSelectionRange(0, 99999);
+  // document.execCommand('copy');
 }
 
 
@@ -421,7 +419,7 @@ function shareCheck() {
   setTimeout(function () {
       toast.classList.remove('show');
       isToastShown = false;
-  }, 2700);
+  }, 2000);
 }
 
 
@@ -437,7 +435,7 @@ function shareCheck() {
 
 function shareTwitter() {
   const shareUrl = "https://mood-circle.netlify.app"; // 전달할 URL
-  window.open(`https://twitter.com/intent/tweet?text=${textArea}`);
+  window.open(`https://twitter.com/intent/tweet?text=${textAreaElem.textContent}`);
 }
 
 
@@ -457,22 +455,22 @@ function shareTwitter() {
 
 btnShareElem.addEventListener('click', () => {
   setDate();
-  console.log(moods[date - 1].score);
+  shareText();
   if (moods[date - 1].score == 6) {
     shareCheck();
   } else if (navigator.share) {
-    shareText();
     navigator.share({
-      title: '',
-      text: `${textArea.textContent}adfadf`,
+      title: 'Mood Circle',
+      text: `${textAreaElem.textContent}`,
       url: '',
     }).then(() => {
       console.log('Thanks for sharing!');
     })
     .catch(console.error);
   } else {
-    // fallback
+    shareTwitter();
   }
+  textAreaElem.remove();
 });
 
 
@@ -490,6 +488,7 @@ function drakModeToggle() {
     localStorage.setItem('darkmode', darkToggle);
   }
 }
+
 
 function darkMode() {
   if (darkToggle == true) { // 다크모드 활성화
