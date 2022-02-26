@@ -455,6 +455,11 @@ html {
   margin-top: 4px;
 }
 
+.inactive {
+  border-left: 1px solid #b2b2b2;
+  border-bottom: 1px solid #b2b2b2;
+}
+
 .year-prev {
   transform: rotate(45deg);
 }
@@ -571,9 +576,15 @@ body.dark-bg {
   color: #fff;
 }
 
+
 .year-prev.dark,
 .year-next.dark {
   border-color: #fff;
+}
+
+.dark.inactive,
+.dark.inactive {
+  border-color: #666;
 }
 
 .date-picker-month.dark .month-circle[data-status="empty"] {

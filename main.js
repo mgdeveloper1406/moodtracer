@@ -393,17 +393,24 @@ function shareText() {
     item.dataset.score == 6 ? false : oneLineResult += scoreEmoji[item.dataset.score];
   });
   const resultLineNum = Math.ceil((oneLineResult.length / 2) / 7);
-  textAreaElem.textContent =`Mood rating for today: ${moods[date - 1].score}/5 ${scoreEmoji[moods[date - 1].score]}\n\n${monthNameShort} Mood:\n`;
+  
+  if (currentPageInfo.year == year && currentPageInfo.month == month) {
+    textAreaElem.textContent = `Mood rating for today: ${moods[date - 1].score}/5 ${scoreEmoji[moods[date - 1].score]}\n\n`;
+    multiLineResult = `Mood rating for today: ${moods[date - 1].score}%2f5 ${scoreEmoji[moods[date - 1].score]}%0a%0a`
+  }
+  textAreaElem.textContent += `Mood circles for ${monthNameShort} ${currentPageInfo.year} :\n`;
+  multiLineResult += `Mood circles for ${monthNameShort} ${currentPageInfo.year} :%0a`;
   for (let i = 0; i < resultLineNum; i++) {
     result.push(oneLineResult.substr(i * 14, 14));
     textAreaElem.textContent += `${result[i]}\n`;
-    // multiLineResult += `${result[i]}%0a`;
+    multiLineResult += `${result[i]}%0a`;
   }
   textAreaElem.textContent += `\n#MoodCircle #Mood`;
+  multiLineResult += `%0a%23MoodCircle %23Mood`;
   // textAreaElem.select();
   // textAreaElem.setSelectionRange(0, 99999);
   // document.execCommand('copy');
-}
+  }
 
 
 
@@ -424,31 +431,15 @@ function shareCheck() {
 
 
 
+
 // URL Encoding
 // %0a : 줄바꿈
 // %2f : 슬래시
-// function shareTwitter() {
-//   const shareUrl = "https://mood-circle.netlify.app"; // 전달할 URL
-//   window.open(`https://twitter.com/intent/tweet?text=Mood rating for today: ${moods[date - 1].score}%2f5 ${scoreEmoji[moods[date - 1].score]}%0a%0a${monthNameShort} Mood:%0a${multiLineResult}%0a%23MoodCircle %23Mood`);
-// }
-
-
 function shareTwitter() {
   const shareUrl = "https://mood-circle.netlify.app"; // 전달할 URL
-  window.open(`https://twitter.com/intent/tweet?text=${textAreaElem.textContent}`);
+  window.open(`https://twitter.com/intent/tweet?text=${multiLineResult}`);
 }
 
-
-
-// btnShareElem.addEventListener('click', () => {
-//   setDate();
-//   if (moods[date - 1].score == 6) {
-//     shareCheck();
-//   } else {
-//     shareText();
-//     shareTwitter();
-//   }
-// });
 
 
 
@@ -561,6 +552,13 @@ function datePicker() {
 
   savedYear = new Set(moods.map((item) => item.year));
   savedYear = [...savedYear];
+
+  function arrowChecker() {
+    savedYear.some((item) => item < selectedYear) ? btnYearPrevElem.classList.remove('inactive') : btnYearPrevElem.classList.add('inactive');
+    savedYear.some((item) => item > selectedYear) ? btnYearNextElem.classList.remove('inactive') : btnYearNextElem.classList.add('inactive');
+  }
+
+  arrowChecker();
   
   btnYearPrevElem.addEventListener('click', () => {
     if (savedYear.some((item) => item < selectedYear)) {
@@ -570,6 +568,7 @@ function datePicker() {
     } else {
       return;
     }
+    arrowChecker();
   });
 
   btnYearNextElem.addEventListener('click', () => {
@@ -580,6 +579,7 @@ function datePicker() {
     } else {
       return;
     }
+    arrowChecker();
   });
 }
 
