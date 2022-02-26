@@ -37,6 +37,7 @@ const datePickerMonthElem = document.querySelector('.date-picker-month');
 const datePickerMonthCircleElems = document.querySelectorAll('.date-picker-month .month-circle');
 const dimmedBlackElem = document.querySelector('.dimmed-black');
 
+const savedDarkMode = localStorage.getItem('darkmode');
 
 
 let today = new Date();
@@ -82,12 +83,17 @@ function setDate() {
 
 
 function onSubmit(e) {
-  e.preventDefault() // 이벤트 실행 시 브라우저의 기본 행동을 막는다
+  e.preventDefault()
   const username = nameInputElem.value;
   nameFormElem.classList.add('hidden');
   localStorage.setItem('username', username);
   renderUsername(username);
   btnMood.classList.remove('hidden');
+  if (localStorage.getItem('darkmode') === null) {
+    themeBubbleElem.classList.remove('hidden');
+  } else {
+    themeBubbleElem.classList.add('hidden');
+  }
 }
 
 function focusOut() {
@@ -96,6 +102,11 @@ function focusOut() {
   localStorage.setItem('username', username);
   renderUsername(username);
   btnMood.classList.remove('hidden');
+  if (localStorage.getItem('darkmode') === null) {
+    themeBubbleElem.classList.remove('hidden');
+  } else {
+    themeBubbleElem.classList.add('hidden');
+  }
 }
 
 
@@ -285,7 +296,6 @@ function changeMood(clickedElem) {
   const clickedNow = new Date(clickedYear, clickedMonth, clickedDate);
   let clickedScore = clickedElem.dataset.score;
 
-  console.log(yesterday <= clickedNow && clickedNow < today);
   if (yesterday <= clickedNow && clickedNow < today) {
     filteredMoods.forEach((item) => {
       if (item.date == clickedDate) {
@@ -346,30 +356,6 @@ dimmedElem.addEventListener('touchend', (e) => {
   dimmedElem.classList.add('hidden');
 });
 
-
-
-
-
-
-// const textArea = document.querySelector('.textarea');
-// let result = [];
-// let multiLineResult = '';
-
-// function share() {
-//   result = [];
-//   const moodCircleElems = document.querySelectorAll('.mood-circle');
-//   let oneLineResult = '';
-//   multiLineResult = '';
-//   moodCircleElems.forEach((item) => {
-//     item.dataset.score == 6 ? false : oneLineResult += scoreEmoji[item.dataset.score];
-//   });
-//   const resultLineNum = Math.ceil((oneLineResult.length / 2) / 7);
-//   for (let i = 0; i < resultLineNum; i++) {
-//     result.push(oneLineResult.substr(i * 14, 14));
-//     multiLineResult += `${result[i]}%0a`;
-//   }
-//   console.log(multiLineResult);
-// }
 
 
 
@@ -517,10 +503,10 @@ function darkMode() {
   }
 }
 
-const savedDarkMode = localStorage.getItem('darkmode');
 
 if (savedDarkMode === null) {
   darkToggle = false;
+  savedUsername === null ? themeBubbleElem.classList.add('hidden') : themeBubbleElem.classList.remove('hidden');
 } else {
   themeBubbleElem.classList.add('hidden');
   darkToggle = JSON.parse(savedDarkMode);
@@ -539,24 +525,22 @@ appNameElem.addEventListener('touchend', () => {
 
 
 // 날짜 선택
-
-
 let savedYear;
 let savedMonth;
 let selectedYear = currentPageInfo.year;
 let selectedMonth = currentPageInfo.month;
 
 
+function arrowChecker() {
+  savedYear.some((item) => item < selectedYear) ? btnYearPrevElem.classList.remove('inactive') : btnYearPrevElem.classList.add('inactive');
+  savedYear.some((item) => item > selectedYear) ? btnYearNextElem.classList.remove('inactive') : btnYearNextElem.classList.add('inactive');
+}
+
 function datePicker() {
   datePickerYearSpanElem.innerText = currentPageInfo.year;
 
   savedYear = new Set(moods.map((item) => item.year));
   savedYear = [...savedYear];
-
-  function arrowChecker() {
-    savedYear.some((item) => item < selectedYear) ? btnYearPrevElem.classList.remove('inactive') : btnYearPrevElem.classList.add('inactive');
-    savedYear.some((item) => item > selectedYear) ? btnYearNextElem.classList.remove('inactive') : btnYearNextElem.classList.add('inactive');
-  }
 
   arrowChecker();
   
