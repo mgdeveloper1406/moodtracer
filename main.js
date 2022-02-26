@@ -219,6 +219,11 @@ function render() {
     moodCircleDiv.dataset.month = currentPageInfo.month;
     moodCircleDiv.dataset.date = i + 1;
     moodCircleDiv.dataset.score = item.score;
+    if (item.year != year && item.score == 6) {
+      moodCircleDiv.dataset.score = 0;
+    } else if (item.month < month && item.score == 6) {
+      moodCircleDiv.dataset.score = 0;
+    }
     circleDateSpan.innerText = i + 1;
     moodWrapperElem.appendChild(moodCircleDiv);
     moodCircleDiv.appendChild(circleDateSpan);
@@ -229,7 +234,6 @@ function render() {
 
 function moodCircleEvent() {
   let moodCircleElems = document.querySelectorAll('.mood-circle');
-
   Array.from(moodCircleElems).forEach((item) => {
     item.addEventListener('click', (e) => {
       changeMood(e.target);
@@ -245,6 +249,19 @@ btnMoodSlcElems.forEach((item) => {
 
 
 
+function circleAnimation() {
+  let moodCircleElems = document.querySelectorAll('.mood-circle');
+  moodCircleElems = Array.from(moodCircleElems);
+  moodCircleElems.forEach((item) => {
+    if (item.dataset.year == year && item.dataset.month == month && item.dataset.date == date) {
+      item.classList.remove('rotate');
+      item.offsetWidth = item.offsetWidth;
+      item.classList.add('rotate');
+    }
+  });
+}
+
+
 function submitMood(e) {
   const ratedScore = e.currentTarget.dataset.score;
   moods.forEach((item) => {
@@ -256,6 +273,7 @@ function submitMood(e) {
   currentPageInfo.year = year;
   currentPageInfo.month = month;
   render(moods);
+  circleAnimation();
   moodSlcWrapperElem.classList.remove('open');
   moodSlcWrapperElem.classList.add('close');
   btnShareElem.classList.remove('hidden');
@@ -299,7 +317,8 @@ function changeMood(clickedElem) {
   if (yesterday <= clickedNow && clickedNow < today) {
     filteredMoods.forEach((item) => {
       if (item.date == clickedDate) {
-        item.score = (item.score + 1)%6;
+        // item.score = (item.score + 1)%6;
+        item.score = (item.score % 5) + 1;
       }
     });
     saveData();
@@ -433,7 +452,8 @@ function shareTwitter() {
 btnShareElem.addEventListener('click', () => {
   setDate();
   shareText();
-  if (moods[date - 1].score == 6) {
+  console.log(currentPageInfo.year == year && currentPageInfo.month == month, filteredMoods[date - 1].score);
+  if (currentPageInfo.year == year && currentPageInfo.month == month && filteredMoods[date - 1].score == 6) {
     shareCheck();
   } else if (navigator.share) {
     navigator.share({
