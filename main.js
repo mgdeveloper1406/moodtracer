@@ -387,8 +387,6 @@ let multiLineResult = '';
 let textAreaElem;
 
 function shareText() {
-  currentPageInfo.year = currentPageInfo.year;
-
   result = [];
   const moodCircleElems = document.querySelectorAll('.mood-circle');
   textAreaElem = document.createElement('textarea');
@@ -396,6 +394,7 @@ function shareText() {
   body.appendChild(textAreaElem);
   // textAreaElem.textContent = '';
   let oneLineResult = '';
+  textAreaElem.textContent = '';
   multiLineResult = '';
   moodCircleElems.forEach((item) => {
     item.dataset.score == 6 ? false : oneLineResult += scoreEmoji[item.dataset.score];
