@@ -387,6 +387,8 @@ let multiLineResult = '';
 let textAreaElem;
 
 function shareText() {
+  currentPageInfo.year = currentPageInfo.year;
+
   result = [];
   const moodCircleElems = document.querySelectorAll('.mood-circle');
   textAreaElem = document.createElement('textarea');
@@ -401,8 +403,8 @@ function shareText() {
   const resultLineNum = Math.ceil((oneLineResult.length / 2) / 7);
   
   if (currentPageInfo.year == year && currentPageInfo.month == month) {
-    textAreaElem.textContent = `Mood rating for today: ${moods[date - 1].score}/5 ${scoreEmoji[moods[date - 1].score]}\n\n`;
-    multiLineResult = `Mood rating for today: ${moods[date - 1].score}%2f5 ${scoreEmoji[moods[date - 1].score]}%0a%0a`
+    textAreaElem.textContent = `Mood rating for today: ${filteredMoods[date - 1].score}/5 ${scoreEmoji[filteredMoods[date - 1].score]}\n\n`;
+    multiLineResult = `Mood rating for today: ${filteredMoods[date - 1].score}%2f5 ${scoreEmoji[filteredMoods[date - 1].score]}%0a%0a`
   }
   textAreaElem.textContent += `Mood circles for ${monthShort[currentPageInfo.month - 1]} ${currentPageInfo.year} :\n`;
   multiLineResult += `Mood circles for ${monthShort[currentPageInfo.month - 1]} ${currentPageInfo.year} :%0a`;
