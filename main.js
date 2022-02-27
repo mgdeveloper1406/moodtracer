@@ -25,6 +25,7 @@ const oneLineResultElem = document.querySelector('.share-result');
 const savedUsername = localStorage.getItem('username');
 
 const scoreEmoji = ['⚫️', '🔴', '🟠', '🟡', '🔵', '🟢'];
+const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 
 const datePickerWrapperElem = document.querySelector('.date-picker-wrapper');
@@ -403,8 +404,8 @@ function shareText() {
     textAreaElem.textContent = `Mood rating for today: ${moods[date - 1].score}/5 ${scoreEmoji[moods[date - 1].score]}\n\n`;
     multiLineResult = `Mood rating for today: ${moods[date - 1].score}%2f5 ${scoreEmoji[moods[date - 1].score]}%0a%0a`
   }
-  textAreaElem.textContent += `Mood circles for ${monthNameShort} ${currentPageInfo.year} :\n`;
-  multiLineResult += `Mood circles for ${monthNameShort} ${currentPageInfo.year} :%0a`;
+  textAreaElem.textContent += `Mood circles for ${monthShort[currentPageInfo.month - 1]} ${currentPageInfo.year} :\n`;
+  multiLineResult += `Mood circles for ${monthShort[currentPageInfo.month - 1]} ${currentPageInfo.year} :%0a`;
   for (let i = 0; i < resultLineNum; i++) {
     result.push(oneLineResult.substr(i * 14, 14));
     textAreaElem.textContent += `${result[i]}\n`;
