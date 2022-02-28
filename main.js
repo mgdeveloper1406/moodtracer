@@ -20,6 +20,11 @@ const btnToggleDateElem = document.querySelector('.toggle-date');
 const btnToggleDateSpanElem = document.querySelector('.toggle-date span');
 const btnShareElem = document.querySelector('.share');
 
+const btnQuestionElem = document.querySelector('.question');
+const btnQuestionSpanElem = btnQuestionElem.querySelector('span');
+const questionWrapperElem = document.querySelector('.question-wrapper');
+
+
 const oneLineResultElem = document.querySelector('.share-result');
 
 const savedUsername = localStorage.getItem('username');
@@ -351,6 +356,26 @@ btnToggleDateElem.addEventListener('click', dateToggle);
 
 
 
+
+
+let isQuestionOpened = false;
+btnQuestionElem.addEventListener('click', () => {
+  if(!isQuestionOpened) {
+    questionWrapperElem.classList.remove('hidden');
+    btnQuestionSpanElem.innerText = 'X';
+    isQuestionOpened = !isQuestionOpened;
+  } else {
+    questionWrapperElem.classList.add('hidden');
+    isQuestionOpened = !isQuestionOpened;
+    btnQuestionSpanElem.innerText = '?';
+  }
+});
+
+
+
+
+
+
 // 무드 추가 버튼 클릭 시 열기/닫기
 function openMoodSelector() {
   moodSlcWrapperElem.classList.remove('close');
@@ -506,6 +531,7 @@ function darkMode() {
     btnYearPrevElem.classList.add('dark');
     btnYearNextElem.classList.add('dark');
     datePickerMonthElem.classList.add('dark');
+    questionWrapperElem.classList.add('dark');
   } else { // 다크모드 비활성화
     body.classList.remove('dark-bg');
     body.classList.add('white-bg');
@@ -522,6 +548,7 @@ function darkMode() {
     btnYearPrevElem.classList.remove('dark');
     btnYearNextElem.classList.remove('dark');
     datePickerMonthElem.classList.remove('dark');
+    questionWrapperElem.remove('dark');
   }
 }
 
