@@ -24,6 +24,7 @@ html {
   font-size: 3rem;
   font-weight: 300; /* light */
   margin-bottom: 0.3em;
+  width: fit-content;
 }
 
 .name-form input {
