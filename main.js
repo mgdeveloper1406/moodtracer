@@ -548,7 +548,7 @@ function darkMode() {
     btnYearPrevElem.classList.remove('dark');
     btnYearNextElem.classList.remove('dark');
     datePickerMonthElem.classList.remove('dark');
-    questionWrapperElem.remove('dark');
+    questionWrapperElem.classList.remove('dark');
   }
 }
 
