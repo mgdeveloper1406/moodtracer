@@ -437,7 +437,7 @@ function shareText() {
     textAreaElem.textContent += `${result[i]}\n`;
     multiLineResult += `${result[i]}%0a`;
   }
-  textAreaElem.textContent += `\n#MoodCircle #Mood`;
+  textAreaElem.textContent += `\n#MoodCircle #Mood\n`;
   multiLineResult += `%0a%23MoodCircle %23Mood`;
   // textAreaElem.select();
   // textAreaElem.setSelectionRange(0, 99999);
