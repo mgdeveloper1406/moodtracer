@@ -269,6 +269,8 @@ function circleAnimation() {
 
 
 function submitMood(e) {
+  currentPageInfo.year = year;
+  currentPageInfo.month = month;
   const ratedScore = e.currentTarget.dataset.score;
   moods.forEach((item) => {
     if (item.year == year && item.month == month && item.date == date) {
@@ -276,8 +278,6 @@ function submitMood(e) {
     }
   });
   saveData();
-  currentPageInfo.year = year;
-  currentPageInfo.month = month;
   render(moods);
   circleAnimation();
   moodSlcWrapperElem.classList.remove('open');
