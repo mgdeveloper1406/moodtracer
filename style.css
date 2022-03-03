@@ -133,11 +133,12 @@ html {
 }
 
 .app-name {
+  position: relative;
   font-size: 6.5rem;
   font-weight: 200;
 }
 
-.app-name span:nth-child(3) {
+.app-name span:nth-child(2) {
   font-weight: 200;
   animation: spacing 3.5s ease-out alternate infinite;
 }
@@ -150,6 +151,68 @@ html {
     letter-spacing: 0.08em;
   }
 }
+
+
+.bubble {
+  position: absolute;
+  background: #000;
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 20px;
+  font-size: 1.2rem;
+
+}
+
+.theme-bubble {
+  left: 140px;
+  bottom: 120px;
+}
+
+.tail-left .bubble-tail {
+  position: absolute;
+  transform: scaleX(-1);
+  bottom: -8px;
+  left: 0;
+}
+
+.tail-right .bubble-tail {
+  position: absolute;
+  bottom: -8px;
+  right: 0;
+}
+
+.toast {
+  right: 50px;
+  bottom: 50px;
+  width: max-content;
+  visibility: hidden;
+}
+
+.toast.show {
+  visibility: visible;
+  animation: fade-in 700ms, fade-out 700ms 2000ms;
+}
+
+
+@keyframes fade-in {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+@keyframes fade-out {
+  from {
+      opacity: 1;
+  }
+  to {
+      opacity: 0;
+  }
+}
+
+
+
 
 .btn-mood {
   width: 50px;
@@ -305,6 +368,10 @@ body.dark-bg {
 
 .circle-date.dark {
   color: #000;
+}
+
+.toast.dark {
+  filter: invert(100%)
 }
 
 

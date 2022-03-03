@@ -1,6 +1,8 @@
 const body = document.querySelector('body');
 const warpperElem = document.querySelector('.wrapper');
 const appNameElem = document.querySelector('.app-name');
+const themeBubbleElem = document.querySelector('.theme-bubble');
+const toastElem = document.querySelector('.toast');
 
 const nameFormElem = document.querySelector('.name-form');
 const nameInputElem = document.querySelector('.name-form input');
@@ -29,7 +31,20 @@ let padDate = String(date).padStart(2, '0');
 let lastdate = new Date(year, month, 0).getDate();
 let monthNameShort = today.toLocaleString('en-US', { month: 'short' });
 
+
 let moods = [];
+
+
+function setDate() {
+  today = new Date();
+  year = today.getFullYear(); // 년도
+  month = today.getMonth() + 1;  // 월
+  date = today.getDate();  // 날짜
+  padMonth = String(month).padStart(2, '0');
+  padDate = String(date).padStart(2, '0');
+  lastdate = new Date(year, month, 0).getDate();
+  monthNameShort = today.toLocaleString('en-US', { month: 'short' });
+}
 
 
 monthElem.textContent = `${year}${padMonth}${padDate}`;
@@ -191,6 +206,7 @@ if (savedMoods === null) {
 }
 
 
+
 if (moods[date - 1].score != 0 && moods[date - 1].score != 6) {
   btnShareElem.classList.remove('hidden');
 } else {
@@ -209,6 +225,7 @@ function submitMood() {
       moodSlcWrapperElem.classList.remove('open');
       moodSlcWrapperElem.classList.add('close');
       btnShareElem.classList.remove('hidden');
+      monthElem.textContent = `${year}${padMonth}${padDate}`;
     });
   });
 }
@@ -235,10 +252,31 @@ function share() {
   console.log(resultText);
 }
 
+
+const toast = document.querySelector('.toast');
+let isToastShown = false;
+
+function shareCheck() {
+  if (isToastShown) return;
+  isToastShown = true;
+  toast.classList.add('show');
+  setTimeout(function () {
+      toast.classList.remove('show');
+      isToastShown = false;
+  }, 2700);
+}
+
+
 btnShareElem.addEventListener('click', () => {
-  share();
-  shareTwitter();
+  setDate();
+  if (moods[date - 1].score == 6) {
+    shareCheck();
+  } else {
+    share();
+    shareTwitter();
+  }
 });
+
 
 
 // URL Encoding
@@ -248,6 +286,7 @@ function shareTwitter() {
   const shareUrl = "https://mood-trckr.netlify.app"; // 전달할 URL
   window.open(`https://twitter.com/intent/tweet?text=Mood rating for today: ${moods[date - 1].score}%2f5 ${scoreEmoji[moods[date - 1].score]}%0a%0a${monthNameShort} Mood:%0a${resultText}%0a%23MoodTracker %23Mood`);
 }
+
 
 
 // 모달창 열기/닫기
@@ -299,6 +338,7 @@ function darkMode() {
     nameFormElem.classList.add('dark');
     moodSlcWrapperElem.classList.add('dark');
     btnMood.classList.add('white');
+    toastElem.classList.add('dark');
     document.querySelectorAll('.circle-date').forEach((item) => {
       item.classList.add('dark');
     });
@@ -309,6 +349,7 @@ function darkMode() {
     nameFormElem.classList.remove('dark');
     moodSlcWrapperElem.classList.remove('dark');
     btnMood.classList.remove('white');
+    toastElem.classList.remove('dark');
     document.querySelectorAll('.circle-date').forEach((item) => {
       item.classList.remove('dark');
     });
@@ -320,17 +361,15 @@ const savedDarkMode = localStorage.getItem('darkmode');
 if (savedDarkMode === null) {
   darkToggle = false;
 } else {
+  themeBubbleElem.classList.add('hidden');
   darkToggle = JSON.parse(savedDarkMode);
   darkMode();
 }
 
-// appNameElem.addEventListener('click', () => {
-//   drakModeToggle();
-//   darkMode();
-// });
 
 
 appNameElem.addEventListener('touchend', () => {
+  themeBubbleElem.classList.add('hidden');
   drakModeToggle();
   darkMode();
 });
