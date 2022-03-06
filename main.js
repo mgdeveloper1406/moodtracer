@@ -269,8 +269,6 @@ function circleAnimation() {
 
 
 function submitMood(e) {
-  currentPageInfo.year = year;
-  currentPageInfo.month = month;
   const ratedScore = e.currentTarget.dataset.score;
   moods.forEach((item) => {
     if (item.year == year && item.month == month && item.date == date) {
@@ -378,6 +376,9 @@ btnQuestionElem.addEventListener('click', () => {
 
 // 무드 추가 버튼 클릭 시 열기/닫기
 function openMoodSelector() {
+  currentPageInfo.year = year;
+  currentPageInfo.month = month;
+  btnToggleDateSpanElem.textContent = `${date} ${week}`
   moodSlcWrapperElem.classList.remove('close');
   moodSlcWrapperElem.classList.add('open');
   dimmedElem.classList.remove('hidden');
