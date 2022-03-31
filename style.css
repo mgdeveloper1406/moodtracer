@@ -618,14 +618,14 @@ html {
 .graph-wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 18px;
+  margin-top: 20px;
 }
 
 .graph-wrapper .stats {
   display: flex;
   text-align: center;
   flex-direction: column-reverse;
-  margin-right: 16px;
+  margin-right: 12px;
 }
 
 .graph-wrapper .stats:nth-child(5) {
@@ -645,7 +645,7 @@ html {
 }
 
 .stats .stat-bar {
-  width: 28px;
+  width: 32px;
   height: 20px;
 }
 
