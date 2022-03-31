@@ -619,6 +619,8 @@ html {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  max-height: 140px;
+  min-height: 140px;
 }
 
 .graph-wrapper .stats {
