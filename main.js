@@ -452,11 +452,11 @@ function setStat() {
   });
   let countScoreSum = countScore1 + countScore2 + countScore3 + countScore4 + countScore5;
   
-  heightScore1 = countScore1 == 0 ? 4 : 5 + 140 * (countScore1 / countScoreSum);
-  heightScore2 = countScore2 == 0 ? 4 : 5 + 140 * (countScore2 / countScoreSum);
-  heightScore3 = countScore3 == 0 ? 4 : 5 + 140 * (countScore3 / countScoreSum);
-  heightScore4 = countScore4 == 0 ? 4 : 5 + 140 * (countScore4 / countScoreSum);
-  heightScore5 = countScore5 == 0 ? 4 : 5 + 140 * (countScore5 / countScoreSum);
+  heightScore1 = countScore1 == 0 ? 4 : 3 + 140 * (countScore1 / countScoreSum);
+  heightScore2 = countScore2 == 0 ? 4 : 3 + 140 * (countScore2 / countScoreSum);
+  heightScore3 = countScore3 == 0 ? 4 : 3 + 140 * (countScore3 / countScoreSum);
+  heightScore4 = countScore4 == 0 ? 4 : 3 + 140 * (countScore4 / countScoreSum);
+  heightScore5 = countScore5 == 0 ? 4 : 3 + 140 * (countScore5 / countScoreSum);
   
 
 
