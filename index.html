@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Poppins:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="apple-touch-icon" sizes="180x180" href="icon/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="icon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="icon/favicon-16x16.png">
@@ -29,7 +30,8 @@
         <div class="user-name"></div>
         <div class="header-btns">
           <div class="toggle-date"><span></span></div>
-          <div class="share"><span>Share</span></div>
+          <div class="share"><span class="material-icons-outlined">share</span></div>
+          <div class="stat-btn"><span class="material-icons-outlined">bar_chart</span></div>
           <div class="question"><span>?</span></div>
         </div>
         <div class="question-wrapper hidden">
@@ -98,11 +100,42 @@
           <div class="month-circle" data-status="empty" data-month="12"><span>12</span></div>
         </div>
       </div>
-
       <div class="dimmed-black hidden"></div>
 
     </div>
   </div>
+  <div class="stat-wrapper hidden">
+    <h2 class="stat-title">Mood Score</h2>
+    <h1 class="stat-date">2022.02</h1>
+    <div class="graph-wrapper">
+      <div class="stats stats-1">
+        <div class="stat-point">1</div>
+        <div class="stat-bar"></div>
+        <div class="stat-count">0</div>
+      </div>
+      <div class="stats stats-2">
+        <div class="stat-point">2</div>
+        <div class="stat-bar"></div>
+        <div class="stat-count">0</div>
+      </div>
+      <div class="stats stats-3">
+        <div class="stat-point">3</div>
+        <div class="stat-bar"></div>
+        <div class="stat-count">0</div>
+      </div>
+      <div class="stats stats-4">
+        <div class="stat-point">4</div>
+        <div class="stat-bar"></div>
+        <div class="stat-count">0</div>
+      </div>
+      <div class="stats stats-5">
+        <div class="stat-point">5</div>
+        <div class="stat-bar"></div>
+        <div class="stat-count">0</div>
+      </div>
+    </div>
+  </div>
+
   <script src="main.js"></script>
 </body>
 </html>

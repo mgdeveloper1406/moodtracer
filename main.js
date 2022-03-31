@@ -19,6 +19,8 @@ const btnMoodSlcElems = document.querySelectorAll('.btn-mood-slc');
 const btnToggleDateElem = document.querySelector('.toggle-date');
 const btnToggleDateSpanElem = document.querySelector('.toggle-date span');
 const btnShareElem = document.querySelector('.share');
+const btnStatElem = document.querySelector('.stat-btn');
+
 
 const btnQuestionElem = document.querySelector('.question');
 const btnQuestionSpanElem = btnQuestionElem.querySelector('span');
@@ -408,6 +410,84 @@ dimmedElem.addEventListener('touchend', (e) => {
 
 
 
+// 통계 그래프
+
+
+const statsWrapperElem = document.querySelector('.stat-wrapper');
+const statsElem1 = document.querySelector('.stats-1');
+const statsElem2 = document.querySelector('.stats-2');
+const statsElem3 = document.querySelector('.stats-3');
+const statsElem4 = document.querySelector('.stats-4');
+const statsElem5 = document.querySelector('.stats-5');
+const statsDateElem = document.querySelector('.stat-date');
+
+function setStat() {
+  statsDateElem.textContent = `${currentPageInfo.year}.${String(currentPageInfo.month).padStart(2, '0')}`
+  let countScore1 = 0;
+  let countScore2 = 0;
+  let countScore3 = 0;
+  let countScore4 = 0;
+  let countScore5 = 0;
+  let heightScore1;
+  let heightScore2;
+  let heightScore3;
+  let heightScore4;
+  let heightScore5;
+  
+  filterMood();
+  filteredMoods.forEach((item) => {
+    if (item.score == 0) {
+      return;
+    } else if (item.score == 1) {
+      countScore1 += 1;
+    } else if (item.score == 2) {
+      countScore2 += 1;
+    } else if (item.score == 3) {
+      countScore3 += 1;
+    } else if (item.score == 4) {
+      countScore4 += 1;
+    } else if (item.score == 5) {
+      countScore5 += 1;
+    }
+  });
+  let countScoreSum = countScore1 + countScore2 + countScore3 + countScore4 + countScore5;
+  
+  heightScore1 = 20 + 100 * (countScore1 / countScoreSum);
+  heightScore2 = 20 + 100 * (countScore2 / countScoreSum);
+  heightScore3 = 20 + 100 * (countScore3 / countScoreSum);
+  heightScore4 = 20 + 100 * (countScore4 / countScoreSum);
+  heightScore5 = 20 + 100 * (countScore5 / countScoreSum);
+  
+  statsElem1.querySelector('.stat-bar').style.height = `${heightScore1}px`;
+  statsElem2.querySelector('.stat-bar').style.height = `${heightScore2}px`;
+  statsElem3.querySelector('.stat-bar').style.height = `${heightScore3}px`;
+  statsElem4.querySelector('.stat-bar').style.height = `${heightScore4}px`;
+  statsElem5.querySelector('.stat-bar').style.height = `${heightScore5}px`;
+
+  statsElem1.querySelector('.stat-count').innerText = `${countScore1}`;
+  statsElem2.querySelector('.stat-count').innerText = `${countScore2}`;
+  statsElem3.querySelector('.stat-count').innerText = `${countScore3}`;
+  statsElem4.querySelector('.stat-count').innerText = `${countScore4}`;
+  statsElem5.querySelector('.stat-count').innerText = `${countScore5}`;
+}
+
+setStat();
+
+
+btnStatElem.addEventListener('click', () => {
+  setStat();
+  dimmedBlackElem.classList.remove('hidden');
+  statsWrapperElem.classList.remove('hidden');
+})
+
+
+
+function closeStat() {
+  statsWrapperElem.classList.add('hidden');
+  dimmedBlackElem.classList.add('hidden');
+}
+
+
 
 
 let result = [];
@@ -535,6 +615,7 @@ function darkMode() {
     btnYearNextElem.classList.add('dark');
     datePickerMonthElem.classList.add('dark');
     questionWrapperElem.classList.add('dark');
+    statsWrapperElem.classList.add('dark');
   } else { // 다크모드 비활성화
     body.classList.remove('dark-bg');
     body.classList.add('white-bg');
@@ -552,6 +633,7 @@ function darkMode() {
     btnYearNextElem.classList.remove('dark');
     datePickerMonthElem.classList.remove('dark');
     questionWrapperElem.classList.remove('dark');
+    statsWrapperElem.classList.remove('dark');
   }
 }
 
@@ -678,9 +760,15 @@ monthElem.addEventListener('click', openDatePicker);
 
 
 // 날짜 선택창 외부 영역 클릭 시 숨기기
-dimmedBlackElem.addEventListener('click', closeDatePicker);
+dimmedBlackElem.addEventListener('click', () => {
+  closeStat();
+  closeDatePicker();
+});
 
 
 // 날짜 선택창 외부 영역 클릭 시 숨기기
-dimmedBlackElem.addEventListener('touchend', closeDatePicker);
+dimmedBlackElem.addEventListener('touchend', () => {
+  closeStat();
+  closeDatePicker();
+});
 
