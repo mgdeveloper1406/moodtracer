@@ -452,12 +452,14 @@ function setStat() {
   });
   let countScoreSum = countScore1 + countScore2 + countScore3 + countScore4 + countScore5;
   
-  heightScore1 = 10 + 120 * (countScore1 / countScoreSum);
-  heightScore2 = 10 + 120 * (countScore2 / countScoreSum);
-  heightScore3 = 10 + 120 * (countScore3 / countScoreSum);
-  heightScore4 = 10 + 120 * (countScore4 / countScoreSum);
-  heightScore5 = 10 + 120 * (countScore5 / countScoreSum);
+  heightScore1 = countScore1 == 0 ? 5 : 140 * (countScore1 / countScoreSum);
+  heightScore2 = countScore2 == 0 ? 5 : 140 * (countScore2 / countScoreSum);
+  heightScore3 = countScore3 == 0 ? 5 : 140 * (countScore3 / countScoreSum);
+  heightScore4 = countScore4 == 0 ? 5 : 140 * (countScore4 / countScoreSum);
+  heightScore5 = countScore5 == 0 ? 5 : 140 * (countScore5 / countScoreSum);
   
+
+
   statsElem1.querySelector('.stat-bar').style.height = `${heightScore1}px`;
   statsElem2.querySelector('.stat-bar').style.height = `${heightScore2}px`;
   statsElem3.querySelector('.stat-bar').style.height = `${heightScore3}px`;
