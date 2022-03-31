@@ -592,7 +592,7 @@ html {
   position: absolute;
   width: 72%;
   left: 50%;
-  top: 140px;
+  top: 120px;
   transform: translate(-50%, 0);
   background: #fff;
   border: 1px solid #000;
@@ -616,9 +616,9 @@ html {
 }
 
 .graph-wrapper {
-  height: 180px;
   display: flex;
   justify-content: center;
+  margin-top: 18px;
 }
 
 .graph-wrapper .stats {
